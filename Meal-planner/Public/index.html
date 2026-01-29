@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Måltidsplanlegger</title>
+</head>
+<body>
+  <h1>AI Måltidsplanlegger</h1>
+
+  <input id="persons" type="number" value="2" placeholder="Antall personer" />
+  <input id="diet" placeholder="Kosthold (valgfritt)" />
+  <input id="budget" type="number" value="500" placeholder="Ukebudsjett" />
+
+  <button onclick="generate()">Generer</button>
+  <pre id="result"></pre>
+
+<script>
+async function generate() {
+  document.getElementById("result").innerText = "Laster...";
+
+  const res = await fetch("/api/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      persons: persons.value,
+      diet: diet.value,
+      budget: budget.value
+    })
+  });
+
+  const data = await res.json();
+  document.getElementById("result").innerText = data.message;
+}
+</script>
+</body>
+</html>
